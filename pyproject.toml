@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fastapi-ca"
+version = "0.1.0"
+description = ""
+authors = ["Jungkihong07 <hnn07185@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.6"
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
+py-ulid = "^1.0.3"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+black = "^24.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
