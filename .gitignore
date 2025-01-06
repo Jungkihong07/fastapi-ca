@@ -1,1 +1,7 @@
-/__pycache__
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Alembic migration versions cache
+migrations/*

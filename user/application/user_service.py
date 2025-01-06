@@ -1,7 +1,7 @@
 from ulid import ULID
 from utils.crypto import Crypto
 from datetime import datetime
-from user.domain.user import User
+from user.domain.user import User, Profile
 from user.domain.repository.user_repo import IUserRepository
 from user.infra.repository.user_repo import UserRepository
 from fastapi import HTTPException
@@ -25,10 +25,10 @@ class UserService:
                 raise e
 
         now = datetime.now()
+
         user: User = User(
             id=self.ulid.generate(),
-            name=name,
-            email=email,
+            profile=Profile(name=name,email=email),
             password=self.crypto.encrypt(password),
             created_at=now,
             updated_at=now,

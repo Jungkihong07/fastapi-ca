@@ -12,7 +12,9 @@ fastapi = "^0.115.6"
 uvicorn = {extras = ["standard"], version = "^0.34.0"}
 py-ulid = "^1.0.3"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-black = "^24.10.0"
+sqlalchemy = "^2.0.36"
+mysqlclient = "^2.2.6"
+alembic = "^1.14.0"
 
 
 [build-system]
