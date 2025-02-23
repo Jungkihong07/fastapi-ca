@@ -13,4 +13,14 @@ class IUserRepository(metaclass=ABCMeta):
          검색한 유저가 없을 경우 422 에러를 발생시킨다.
         """
         raise NotImplementedError
-
+    
+    @abstractmethod
+    def find_by_id(self, id: str) -> User:
+        """ 
+         아이디로 사용자를 검색한다.
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def update(self, user : User):
+        raise NotImplementedError

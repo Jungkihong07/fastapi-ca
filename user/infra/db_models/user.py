@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import String, DateTime
+from sqlalchemy import String, DateTime, Text
 from sqlalchemy.orm import Mapped, mapped_column
 from database import Base
 class User(Base):
@@ -9,5 +9,6 @@ class User(Base):
     name: Mapped[str] = mapped_column(String(32), nullable=False)  # 이름
     email: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)  # 이메일 (고유)
     password: Mapped[str] = mapped_column(String(64), nullable=False)  # 비밀번호
+    memo: Mapped[str] = mapped_column(Text, nullable=True)  # 비밀번호
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)  # 생성일
     updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)  # 업데이트일
