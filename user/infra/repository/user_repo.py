@@ -58,3 +58,9 @@ class UserRepository(IUserRepository):
         db.commit()
 
         return user
+
+    def get_users(self) -> list[UserVO]:
+        with SessionLocal() as db:
+            users = db.query(User).all()
+
+        return [map_user(user) for user in users]
