@@ -49,10 +49,14 @@ def update_user(
 @router.get("")
 @inject
 def get_users(
+    page: int = 1,
+    item_per_page: int = 10,
     user_service: UserService = Depends(Provide[Container.user_service]),
 ):
-    users = user_service.get_users
+    total_count, users = user_service.get_users(page, item_per_page)
 
     return {
+        "total_count": total_count,
+        "page": page,
         "users": users,
     }

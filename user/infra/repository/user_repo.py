@@ -59,8 +59,14 @@ class UserRepository(IUserRepository):
 
         return user
 
-    def get_users(self) -> list[UserVO]:
+    def get_users(
+        self, page: int = 1, items_per_page: int = 10
+    ) -> tuple[int, list[UserVO]]:
         with SessionLocal() as db:
-            users = db.query(User).all()
+            query = db.query(User)
+            total_count = query.count()
 
-        return [map_user(user) for user in users]
+            offset = (page - 1) * items_per_page
+            users = query.limit(items_per_page).offset(offset).all()
+
+        return total_count, [map_user(user) for user in users]
