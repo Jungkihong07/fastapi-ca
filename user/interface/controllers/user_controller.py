@@ -8,10 +8,14 @@ from user.application.user_service import UserService
 router = APIRouter(prefix="/users")
 
 
-class UserResponse(BaseModel):
-    id: str
+class Proflle(BaseModel):
     name: str
     email: str
+
+
+class UserResponse(BaseModel):
+    id: str
+    profile: Proflle
     created_at: datetime
     updated_at: datetime
 
@@ -54,13 +58,19 @@ def update_user(
     return user
 
 
+class GetUserResponse(BaseModel):
+    total_count: int
+    page: int
+    users: list[UserResponse]
+
+
 @router.get("")
 @inject
 def get_users(
     page: int = 1,
     item_per_page: int = 10,
     user_service: UserService = Depends(Provide[Container.user_service]),
-):
+) -> GetUserResponse:
     total_count, users = user_service.get_users(page, item_per_page)
 
     return {
