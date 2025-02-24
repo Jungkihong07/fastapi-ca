@@ -70,3 +70,13 @@ class UserRepository(IUserRepository):
             users = query.limit(items_per_page).offset(offset).all()
 
         return total_count, [map_user(user) for user in users]
+
+    def delete_user(self, id: str):
+        with SessionLocal() as db:
+            user = db.query(User).filter(User.id == id).first()
+
+            if not user:
+                raise HTTPException(status_code=422)
+
+            db.delete(user)
+            db.commit()
