@@ -17,6 +17,7 @@ mysqlclient = "^2.2.6"
 alembic = "^1.14.0"
 dependency-injector = "^4.45.0"
 black = "^25.1.0"
+pydantic = {extras = ["email"], version = "^2.10.6"}
 
 
 [build-system]

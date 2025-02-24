@@ -1,6 +1,6 @@
-from typing import Annotated
+from datetime import datetime
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 from dependency_injector.wiring import inject, Provide
 from containers import Container
 from user.application.user_service import UserService
@@ -8,13 +8,21 @@ from user.application.user_service import UserService
 router = APIRouter(prefix="/users")
 
 
-class CreateUserBody(BaseModel):
+class UserResponse(BaseModel):
+    id: str
     name: str
     email: str
-    password: str
+    created_at: datetime
+    updated_at: datetime
 
 
-@router.post("", status_code=201)
+class CreateUserBody(BaseModel):
+    name: str = Field(min_length=2, max_length=32)
+    email: EmailStr = Field(max_length=64)  # 이메일 검증을 하기 위함.
+    password: str = Field(min_length=8, max_length=32)
+
+
+@router.post("", status_code=201, response_model=UserResponse)
 @inject
 def create_user(
     user: CreateUserBody,
@@ -28,8 +36,8 @@ def create_user(
 
 
 class UpdateUser(BaseModel):
-    name: str | None = None
-    password: str | None = None
+    name: str | None = Field(min_length=2, max_length=32, default=None)
+    password: str | None = Field(min_length=2, max_length=32, default=None)
 
 
 @router.put("/{user_id}")
