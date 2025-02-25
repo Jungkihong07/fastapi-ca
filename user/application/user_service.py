@@ -1,12 +1,12 @@
 from typing import Annotated
 from ulid import ULID
+from common.auth import create_access_token, Role
 from utils.crypto import Crypto
 from datetime import datetime
 from user.domain.user import User, Profile
 from user.domain.repository.user_repo import IUserRepository
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, status
 from dependency_injector.wiring import inject, Provide
-from fastapi import Depends
 
 
 class UserService:
@@ -67,3 +67,12 @@ class UserService:
 
     def delete_user(self, user_id: str):
         self.user_repo.delete_user(user_id)
+
+    def login(self, email: str, password: str):
+        user = self.user_repo.find_by_email(email)
+        if not self.crypto.verify(password, user.password):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
+        access_token = create_access_token(payload={"user_id": user.id}, role=Role.USER)
+
+        return access_token

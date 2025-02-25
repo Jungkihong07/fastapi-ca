@@ -5,3 +5,6 @@ __pycache__/
 
 # Alembic migration versions cache
 migrations/*
+
+# evn file
+.env
