@@ -6,13 +6,17 @@ from jose import JWTError, jwt
 from enum import StrEnum
 from dataclasses import dataclass
 
+from config import get_settings
+
+settings = get_settings()
+
 
 class Role(StrEnum):
     ADMIN = "ADMIN"
     USER = "USER"
 
 
-SECRET_KEY = "THIS_IS_SUPER_SECRET_KEY"
+SECRET_KEY = settings.jwt_secret
 ALGORITHM = "HS256"
 
 
