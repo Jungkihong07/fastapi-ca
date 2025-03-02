@@ -9,7 +9,7 @@ from common.auth import CurrentUser, get_current_user
 from containers import Container
 from note.application.note_service import NoteService
 
-router = APIRouter(prefix="/notes")
+router = APIRouter(prefix="/notes", tags=["Note api"])
 
 
 class NoteResponse(BaseModel):
@@ -106,7 +106,7 @@ def get_note(
 
 
 class UpdateNoteBody(BaseModel):
-    title: str | None = Field(default=None, min_length=1, max_length=4)
+    title: str | None = Field(default=None, min_length=1, max_length=64)
     content: str | None = Field(default=None, min_length=1)
     memo_date: str | None = Field(default=None, min_length=8, max_length=8)
     tags: list[str] | None = Field(default=None)

@@ -8,7 +8,7 @@ from common.auth import CurrentUser, get_current_user, get_admin_user
 from containers import Container
 from user.application.user_service import UserService
 
-router = APIRouter(prefix="/users")
+router = APIRouter(prefix="/users", tags=["User Api"])
 
 
 class Proflle(BaseModel):
