@@ -14,12 +14,18 @@ from dependency_injector.wiring import inject, Provide
 class UserService:
     @inject  # 주입받은 객체를 사용한다고 명시함.
     def __init__(
-        self, user_repo: IUserRepository, email_service: EmailService
+        self,
+        user_repo: IUserRepository,
+        email_service: EmailService,
+        ulid: ULID,
+        crypto: Crypto,
+        send_welcome_email_task: SendWelcomeEmailTask,
     ):  # 컨테이너에 등록한 user repo를 사용할 수 있게 됨., 그리고 명시하지 않아도 자동으로 등록됨.
         self.email_service = email_service
         self.user_repo = user_repo
-        self.ulid = ULID()
-        self.crypto = Crypto()
+        self.ulid = ulid
+        self.crypto = crypto
+        self.send_welcome_email_task = send_welcome_email_task
 
     def create_user(
         self,
@@ -54,7 +60,7 @@ class UserService:
 
         # background_tasks.add_task(self.email_service.send_email, user.profile.email)
 
-        SendWelcomeEmailTask().run(user.profile.email)
+        self.send_welcome_email_task.delay(user.profile.email)
 
         return user
 
